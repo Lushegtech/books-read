@@ -65,7 +65,7 @@ router.get('/books', async (req, res) => {
 
 // GET new book form
 router.get('/books/new', (req, res) => {
-  res.render('books/new');
+  res.render('books/new', { book: null });
 });
 
 // POST create new book
@@ -145,6 +145,11 @@ router.delete('/books/:id', async (req, res) => {
     console.error('Error deleting book:', error);
     res.status(500).render('error', { message: 'Failed to delete book' });
   }
+});
+
+// Root route redirect
+router.get('/', (req, res) => {
+  res.redirect('/books');
 });
 
 app.use('/', router);

@@ -1,0 +1,46 @@
+<div class="form-container">
+    <h2><%= book ? 'Edit Book' : 'Add New Book' %></h2>
+
+    <form action="<%= book ? `/books/${book.id}?_method=PUT` : '/books' %>" method="POST">
+        <div class="form-group">
+            <label for="title">Title *</label>
+            <input type="text" id="title" name="title" required 
+                   value="<%= book ? book.title : '' %>">
+        </div>
+        
+        <div class="form-group">
+            <label for="author">Author *</label>
+            <input type="text" id="author" name="author" required
+                   value="<%= book ? book.author : '' %>">
+        </div>
+        
+        <div class="form-group">
+            <label for="isbn">ISBN *</label>
+            <input type="text" id="isbn" name="isbn" required
+                   pattern="\d{10,13}" 
+                   title="10 or 13 digit ISBN"
+                   value="<%= book ? book.isbn : '' %>">
+        </div>
+        
+        <div class="form-group">
+            <label for="rating">Rating (1-5)</label>
+            <input type="number" id="rating" name="rating" min="1" max="5"
+                   value="<%= book ? book.rating : '' %>">
+        </div>
+        
+        <div class="form-group">
+            <label for="date_read">Date Read</label>
+            <input type="date" id="date_read" name="date_read"
+                   value="<%= book ? book.date_read : '' %>">
+        </div>
+        
+        <div class="form-group">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes"><%= book ? book.notes : '' %></textarea>
+        </div>
+        
+        <button type="submit" class="btn submit">
+            <%= book ? 'Update Book' : 'Add Book' %>
+        </button>
+    </form>
+</div>
