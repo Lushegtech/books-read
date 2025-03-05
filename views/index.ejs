@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="controls">
+        <form action="/books" method="GET" class="sort-form">
+            <select name="sort" onchange="this.form.submit()">
+                <option value="created_at" <%= currentSort === 'created_at' ? 'selected' : '' %>>Sort by Date Added</option>
+                <option value="title" <%= currentSort === 'title' ? 'selected' : '' %>>Sort by Title</option>
+                <option value="author" <%= currentSort === 'author' ? 'selected' : '' %>>Sort by Author</option>
+                <option value="rating" <%= currentSort === 'rating' ? 'selected' : '' %>>Sort by Rating</option>
+                <option value="date_read" <%= currentSort === 'date_read' ? 'selected' : '' %>>Sort by Read Date</option>
+            </select>
+            <input type="hidden" name="direction" value="<%= currentDirection === 'ASC' ? 'DESC' : 'ASC' %>">
+        </form>
+    </div>
+
+    <div class="book-grid">
+        <% books.forEach(book => { %>
+            <div class="book-card">
+                <div class="cover-container">
+                    <img 
+                        src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg" 
+                        alt="<%= book.title %> cover"
+                        onerror="this.onerror=null;this.src='/images/default-cover.jpg';"
+                        class="book-cover"
+                    >
+                </div>
+                <div class="book-details">
+                    <h2><%= book.title %></h2>
+                    <p class="author">By <%= book.author %></p>
+                    
+                    <% if (book.rating) { %>
+                        <div class="rating">
+                            <% for (let i = 0; i < 5; i++) { %>
+                                <span class="star <%= i < book.rating ? 'filled' : '' %>">★</span>
+                            <% } %>
+                        </div>
+                    <% } %>
+                    
+                    <% if (book.date_read) { %>
+                        <p class="date-read">Read on <%= book.formatted_date %></p>
+                    <% } %>
+                    
+                    <div class="actions">
+                        <a href="/books/<%= book.id %>/edit" class="btn edit">Edit</a>
+                        <form action="/books/<%= book.id %>?_method=DELETE" method="POST">
+                            <button type="submit" class="btn delete">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>
