@@ -77,6 +77,45 @@ transform: translateY(-50%) scale(0.85);
 color: var(--primary-color);
 }
 
+/* Form field styling */
+.input-field {
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-field input,
+.input-field textarea {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--text-secondary);
+  border-radius: 0;
+  outline: none;
+  height: 3rem;
+  width: 100%;
+  font-size: 16px;
+  padding: 0;
+  box-shadow: none;
+  transition: all .3s;
+}
+
+.input-field label {
+  color: var(--text-secondary);
+  position: absolute;
+  top: 0.8rem;
+  left: 0;
+  font-size: 1rem;
+  cursor: text;
+  transition: .2s ease-out;
+  transform-origin: 0%;
+}
+
+.input-field input:focus + label,
+.input-field input:not(:placeholder-shown) + label {
+  transform: translateY(-1.4rem) scale(0.8);
+  color: var(--primary-color);
+}
+
 /* Card hover effects */
 .book-card {
 transition: all 0.3s ease;
@@ -109,4 +148,24 @@ cursor: pointer;
 .star.filled {
 color: #fbbf24;
 transform: scale(1.1);
+}
+
+/* Rating stars consistency */
+.rating-stars {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.rating-star {
+  color: #bdbdbd;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.rating-star.filled {
+  color: #ffd700;
+}
+
+.rating-star:hover {
+  transform: scale(1.2);
 }

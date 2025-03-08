@@ -135,4 +135,62 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'translateY(0)';
         });
     });
+
+    // Material ripple effect
+    document.querySelectorAll('.btn, .btn-floating').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.classList.add('ripple');
+            this.appendChild(ripple);
+            
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${e.clientX - rect.left - size/2}px`;
+            ripple.style.top = `${e.clientY - rect.top - size/2}px`;
+            
+            ripple.addEventListener('animationend', () => ripple.remove());
+        });
+    });
+
+    // Consistent form validation feedback
+    document.querySelectorAll('form').forEach(form => {
+        const inputs = form.querySelectorAll('input, textarea');
+        
+        inputs.forEach(input => {
+            const wrapper = input.closest('.input-field');
+            
+            input.addEventListener('focus', () => {
+                wrapper.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', () => {
+                wrapper.classList.remove('focused');
+                validateInput(input);
+            });
+            
+            input.addEventListener('input', () => {
+                validateInput(input);
+            });
+        });
+    });
+    
+    function validateInput(input) {
+        const wrapper = input.closest('.input-field');
+        const errorMessage = wrapper.querySelector('.error-message');
+        
+        if (input.validity.valid) {
+            wrapper.classList.remove('invalid');
+            if (errorMessage) errorMessage.remove();
+        } else {
+            wrapper.classList.add('invalid');
+            if (!errorMessage) {
+                const message = document.createElement('span');
+                message.className = 'error-message';
+                message.textContent = input.validationMessage;
+                wrapper.appendChild(message);
+            }
+        }
+    }
 });
