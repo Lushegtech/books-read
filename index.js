@@ -37,17 +37,24 @@ router.get('/books', async (req, res) => {
     
     let { sort = 'created_at', direction = 'DESC' } = req.query;
     
+    // Validate and sanitize sort parameters
     sort = validSorts.includes(sort) ? sort : 'created_at';
     direction = validDirections.includes(direction.toUpperCase()) 
       ? direction.toUpperCase() 
       : 'DESC';
+
+    // Add NULLS LAST to handle null values consistently
+    const orderClause = `
+      ${sort} ${direction} NULLS ${direction === 'ASC' ? 'FIRST' : 'LAST'},
+      id ${direction}
+    `;
 
     const query = `
       SELECT *, 
         TO_CHAR(date_read, 'YYYY-MM-DD') AS formatted_date,
         CASE WHEN rating IS NULL THEN 0 ELSE rating END AS safe_rating
       FROM books
-      ORDER BY ${sort} ${direction}
+      ORDER BY ${orderClause}
     `;
     
     const { rows } = await pool.query(query);
