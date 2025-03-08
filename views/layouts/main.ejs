@@ -4,42 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Notes</title>
-    <!-- Material UI CSS -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <nav class="nav-extended indigo">
-        <div class="nav-wrapper container">
-            <a href="/books" class="brand-logo">📚 Book Notes</a>
-            <ul class="right">
-                <li><a href="/books"><i class="material-icons left">library_books</i>All Books</a></li>
-                <li><a href="/books/new"><i class="material-icons left">add</i>Add Book</a></li>
-            </ul>
-        </div>
-    </nav>
+    <header>
+        <h1><a href="/books">📚 Book Notes</a></h1>
+        <nav>
+            <a href="/books">All Books</a>
+            <a href="/books/new">Add Book</a>
+        </nav>
+    </header>
     
-    <main class="container">
+    <main>
         <%- body %>
     </main>
 
-    <div class="loading-spinner" style="display: none;">
-        <div class="spinner"></div>
-    </div>
-
-    <footer class="page-footer indigo">
-        <div class="footer-copyright">
-            <div class="container">
-                Book data from <a class="grey-text text-lighten-4" href="https://openlibrary.org" target="_blank">Open Library</a>
-            </div>
-        </div>
+    <footer>
+        <p>Book data from Open Library</p>
     </footer>
-
-    <!-- Material UI Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="/js/script.js"></script>
 </body>
 </html>

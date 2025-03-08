@@ -1,72 +1,53 @@
 <div class="container">
-    <div class="row">
-        <div class="col s12">
-            <div class="card-panel">
-                <form action="/books" method="GET" class="sort-form">
-                    <div class="input-field">
-                        <select id="sort-select" name="sort" onchange="this.form.submit()">
-                            <option value="created_at" <%= currentSort === 'created_at' ? 'selected' : '' %>>
-                                Date Added <%= currentSort === 'created_at' ? (currentDirection === 'ASC' ? '↑' : '↓') : '' %>
-                            </option>
-                            <option value="title" <%= currentSort === 'title' ? 'selected' : '' %>>
-                                Title <%= currentSort === 'title' ? (currentDirection === 'ASC' ? '↑' : '↓') : '' %>
-                            </option>
-                            <option value="author" <%= currentSort === 'author' ? 'selected' : '' %>>
-                                Author <%= currentSort === 'author' ? (currentDirection === 'ASC' ? '↑' : '↓') : '' %>
-                            </option>
-                            <option value="rating" <%= currentSort === 'rating' ? 'selected' : '' %>>
-                                Rating <%= currentSort === 'rating' ? (currentDirection === 'ASC' ? '↑' : '↓') : '' %>
-                            </option>
-                            <option value="date_read" <%= currentSort === 'date_read' ? 'selected' : '' %>>
-                                Read Date <%= currentSort === 'date_read' ? (currentDirection === 'ASC' ? '↑' : '↓') : '' %>
-                            </option>
-                        </select>
-                        <label>Sort by</label>
-                    </div>
-                    <input type="hidden" name="direction" value="<%= currentDirection === 'ASC' ? 'DESC' : 'ASC' %>">
-                </form>
-            </div>
-        </div>
+    <div class="controls">
+        <form action="/books" method="GET" class="sort-form">
+            <label for="sort-select">Sort by:</label>
+            <select id="sort-select" name="sort" onchange="this.form.submit()"></select>
+                <option value="created_at" <%= currentSort === 'created_at' ? 'selected' : '' %>>Date Added</option>
+                <option value="title" <%= currentSort === 'title' ? 'selected' : '' %>>Title</option>
+                <option value="author" <%= currentSort === 'author' ? 'selected' : '' %>>Author</option>
+                <option value="rating" <%= currentSort === 'rating' ? 'selected' : '' %>>Rating</option>
+                <option value="date_read" <%= currentSort === 'date_read' ? 'selected' : '' %>>Read Date</option>
+            </select>
+            <input type="hidden" name="direction" value="<%= currentDirection === 'ASC' ? 'DESC' : 'ASC' %>">
+        </form>
     </div>
 
-    <div class="row book-grid">
+    <div class="book-grid">
         <% books.forEach(book => { %>
-            <div class="col s12 m6 l4">
-                <div class="card hoverable">
-                    <div class="card-image">
-                        <img src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg" 
-                             alt="<%= book.title %> cover"
-                             onerror="this.onerror=null;this.src='/images/default-cover.jpg';"
-                             loading="lazy">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title"><%= book.title %></span>
-                        <p class="author">By <%= book.author %></p>
-                        
-                        <% if (book.rating) { %>
-                            <div class="rating" aria-label="Rating: <%= book.rating %> out of 5 stars">
-                                <% for (let i = 0; i < 5; i++) { %>
-                                    <i class="material-icons <%= i < book.rating ? 'yellow-text text-darken-2' : 'grey-text text-lighten-1' %>">
-                                        star
-                                    </i>
-                                <% } %>
-                            </div>
-                        <% } %>
-                        
-                        <% if (book.date_read) { %>
-                            <p class="date-read">
-                                <i class="material-icons tiny">calendar_today</i>
-                                <%= book.formatted_date %>
-                            </p>
-                        <% } %>
-                    </div>
-                    <div class="card-action">
-                        <a href="/books/<%= book.id %>/edit" class="btn-floating btn-small waves-effect waves-light blue">
-                            <i class="material-icons">edit</i>
+            <div class="book-card">
+                <div class="cover-container">
+                    <img 
+                        src="https://covers.openlibrary.org/b/isbn/<%= book.isbn %>-L.jpg" 
+                        alt="<%= book.title %> cover"
+                        onerror="this.onerror=null;this.src='/images/default-cover.jpg';"
+                        class="book-cover"
+                        loading="lazy"
+                    >
+                </div>
+                <div class="book-details">
+                    <h2 class="book-title"><%= book.title %></h2>
+                    <p class="author">By <%= book.author %></p>
+                    
+                    <% if (book.rating) { %>
+                        <div class="rating" aria-label="Rating: <%= book.rating %> out of 5 stars">
+                            <% for (let i = 0; i < 5; i++) { %>
+                                <span class="star <%= i < book.rating ? 'filled' : '' %>">★</span>
+                            <% } %>
+                        </div>
+                    <% } %>
+                    
+                    <% if (book.date_read) { %>
+                        <p class="date-read"><i class="far fa-calendar"></i> <%= book.formatted_date %></p>
+                    <% } %>
+                    
+                    <div class="actions">
+                        <a href="/books/<%= book.id %>/edit" class="btn edit">
+                            <i class="fas fa-edit"></i> Edit
                         </a>
-                        <form action="/books/<%= book.id %>?_method=DELETE" method="POST" class="delete-form" style="display: inline;">
-                            <button type="submit" class="btn-floating btn-small waves-effect waves-light red">
-                                <i class="material-icons">delete</i>
+                        <form action="/books/<%= book.id %>?_method=DELETE" method="POST" class="delete-form">
+                            <button type="submit" class="btn delete">
+                                <i class="fas fa-trash"></i> Delete
                             </button>
                         </form>
                     </div>
